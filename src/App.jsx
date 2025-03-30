@@ -1,4 +1,4 @@
-import './App.css'
+import styles from './App.module.css'
 import { useState, useRef, useEffect } from 'react'
 import {
   EmailForm,
@@ -43,8 +43,8 @@ function App() {
   }
 
   return (
-    <div>
-      <form onSubmit={onSubmit}>
+    <div className={styles['form-container']}>
+      <form onSubmit={onSubmit} className={styles['registration-form']}>
         <input
           type="email"
           name="email"
@@ -52,6 +52,7 @@ function App() {
           placeholder="E-mail"
           onChange={onEmailChange}
           onBlur={onEmailBlur}
+          className={styles['input-field']}
         />
 
         <input
@@ -61,6 +62,7 @@ function App() {
           placeholder="Password"
           onChange={onPasswordChange}
           onBlur={onPasswordBlur}
+          className={styles['input-field']}
         />
 
         <input
@@ -70,11 +72,17 @@ function App() {
           placeholder="Repeat password"
           onChange={onRepeatPasswordChange}
           onBlur={onRepeatPasswordBlur}
+          className={styles['input-field']}
         />
 
-        {error && <div style={{ color: 'red' }}>{error}</div>}
+        {error && <div className={styles['error-message']}>{error}</div>}
 
-        <button type="submit" ref={buttonRef} disabled={error !== null}>
+        <button
+          type="submit"
+          ref={buttonRef}
+          disabled={error !== null}
+          className={styles['submit-button']}
+        >
           Отправить
         </button>
       </form>
