@@ -1,52 +1,89 @@
-import './App.css'
-import { useState } from 'react'
-
+import styles from './App.module.css'
+import { useState, useRef, useEffect } from 'react'
+import {
+  EmailForm,
+  PasswordForm,
+  RepeatPasswordForm,
+  StoreForm,
+} from './components/index'
 
 function App() {
-  const [login, setLogin] = useState('')
-  const [loginError, setLoginError] = useState(null)
+  const [error, setError] = useState(null)
 
-  const onLoginChange = ({ target }) => {
-    setLogin(target.value)
+  const { onEmailChange, onEmailBlur, email } = EmailForm(setError)
+  const { onPasswordChange, onPasswordBlur, password } = PasswordForm(setError)
+  const { onRepeatPasswordChange, onRepeatPasswordBlur, repeatPassword } =
+    RepeatPasswordForm(setError, password)
+  const { updatedStore, setStore } = StoreForm(
+    setError,
+    password,
+    email,
+    repeatPassword
+  )
 
-    let error = null
+  const buttonRef = useRef(null)
 
-    if (!/^[\w_]*$/.test(target.value)) {
-      error =
-        'Неверный логин. Допустимые символы - буквы, цифры и нижнее подчёркивания'
-    } else if (target.value.length > 20) {
-      error = 'Неверный логин. Должно быть не больше 20 символов'
+  useEffect(() => {
+    if (
+      !error &&
+      email &&
+      password &&
+      repeatPassword &&
+      password.length >= 6 &&
+      repeatPassword === password
+    ) {
+      buttonRef.current.focus()
     }
-
-    setLoginError(error)
-  }
+  }, [error, email, password, repeatPassword]) // Зависимости для useEffect
 
   const onSubmit = (event) => {
     event.preventDefault()
-    console.log(login)
-  }
-
-  const onLoginBlur = () => {
-    if (login.length < 3) {
-      setLoginError('Неверный логин. Должно быть не меньше 3 символов.')
-    }
+    setStore(updatedStore)
+    console.log(updatedStore)
   }
 
   return (
-    <div>
-      <form onSubmit={onSubmit}>
+    <div className={styles['form-container']}>
+      <div className={styles.title}>Регистрационная форма</div>
+      <form onSubmit={onSubmit} className={styles['registration-form']}>
         <input
-          type="text"
-          name="login"
-          value={login}
-          placeholder="Login"
-          onChange={onLoginChange}
-          onBlur={onLoginBlur}
+          type="email"
+          name="email"
+          value={email}
+          placeholder="E-mail"
+          onChange={onEmailChange}
+          onBlur={onEmailBlur}
+          className={styles['input-field']}
         />
 
-        {loginError && <div style={{ color: 'red' }}>{loginError}</div>}
+        <input
+          type="password"
+          name="password"
+          value={password}
+          placeholder="Password"
+          onChange={onPasswordChange}
+          onBlur={onPasswordBlur}
+          className={styles['input-field']}
+        />
 
-        <button type="submit" disabled={loginError !== null}>
+        <input
+          type="password"
+          name="repeatPassword"
+          value={repeatPassword}
+          placeholder="Repeat password"
+          onChange={onRepeatPasswordChange}
+          onBlur={onRepeatPasswordBlur}
+          className={styles['input-field']}
+        />
+
+        {error && <div className={styles['error-message']}>{error}</div>}
+
+        <button
+          type="submit"
+          ref={buttonRef}
+          disabled={error !== null}
+          className={styles['submit-button']}
+        >
           Отправить
         </button>
       </form>
