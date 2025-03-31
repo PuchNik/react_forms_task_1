@@ -44,6 +44,7 @@ function App() {
 
   return (
     <div className={styles['form-container']}>
+      <div className={styles.title}>Регистрационная форма</div>
       <form onSubmit={onSubmit} className={styles['registration-form']}>
         <input
           type="email"
