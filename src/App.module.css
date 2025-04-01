@@ -2,7 +2,7 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
-  font-family: "Circon Text"
+  font-family: 'Circon Text';
 }
 
 .title {
@@ -33,4 +33,9 @@ button {
   font-size: 16px;
   font-weight: 400;
   letter-spacing: 1px;
+}
+
+.error-message {
+  text-align: center;
+  color: red;
 }

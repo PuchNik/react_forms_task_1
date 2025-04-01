@@ -34,7 +34,7 @@ function App() {
     ) {
       buttonRef.current.focus()
     }
-  }, [error, email, password, repeatPassword]) // Зависимости для useEffect
+  }, [error, email, password, repeatPassword])
 
   const onSubmit = (event) => {
     event.preventDefault()

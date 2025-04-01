@@ -17,6 +17,6 @@ export const StoreForm = (setError, password, email, repeatPassword) => {
 
   return {
     updatedStore,
-    setStore
+    setStore,
   }
 }
