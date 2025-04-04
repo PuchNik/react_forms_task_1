@@ -3,10 +3,12 @@ import { useState } from 'react'
 export const PasswordForm = (setError, repeatPassword) => {
   const [password, setPassword] = useState('')
 
+  // Отслеживание изменнений в Input. Проверка валидности при вводе знаечния
   const onPasswordChange = ({ target }) => {
     setPassword(target.value)
   }
 
+  // Проверка валидности после пермещения курсора
   const onPasswordBlur = () => {
     if (password.length === 0) {
       setError('Поле Password не может быть пустым')
@@ -18,6 +20,7 @@ export const PasswordForm = (setError, repeatPassword) => {
       setError(null)
     }
   }
+
   return {
     onPasswordChange,
     onPasswordBlur,

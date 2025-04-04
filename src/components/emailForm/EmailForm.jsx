@@ -3,6 +3,7 @@ import { useState } from 'react'
 export const EmailForm = (setError) => {
   const [email, setEmail] = useState('')
 
+  // Отслеживание изменнений в Input. Проверка валидности при вводе знаечния
   const onEmailChange = ({ target }) => {
     setEmail(target.value)
 
@@ -17,6 +18,7 @@ export const EmailForm = (setError) => {
     }
   }
 
+  // Проверка валидности после пермещения курсора
   const onEmailBlur = ({ target }) => {
     if (email.length < 9) {
       setError('Минисальная длина E-mail состовляет 9 символов')
@@ -24,6 +26,7 @@ export const EmailForm = (setError) => {
       setError('В поле E-mail обязательно должен присутствовать символ "@"')
     }
   }
+
   return {
     onEmailChange,
     onEmailBlur,

@@ -1,7 +1,8 @@
 import { useState } from 'react'
 import { storeData } from '../../helpers/storData'
 
-export const StoreForm = (setError, password, email, repeatPassword) => {
+// Управление состоянием данных формы
+export const StoreForm = (password, email, repeatPassword) => {
   const [store, setStore] = useState(storeData)
 
   const updatedStore = store.map((item) => {

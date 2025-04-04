@@ -1,5 +1,5 @@
-import styles from './App.module.css'
 import { useState, useRef, useEffect } from 'react'
+import styles from './App.module.css'
 import {
   EmailForm,
   PasswordForm,
@@ -7,22 +7,18 @@ import {
   StoreForm,
 } from './components/index'
 
+
 function App() {
   const [error, setError] = useState(null)
-
-  const { onEmailChange, onEmailBlur, email } = EmailForm(setError)
-  const { onPasswordChange, onPasswordBlur, password } = PasswordForm(setError)
-  const { onRepeatPasswordChange, onRepeatPasswordBlur, repeatPassword } =
-    RepeatPasswordForm(setError, password)
-  const { updatedStore, setStore } = StoreForm(
-    setError,
-    password,
-    email,
-    repeatPassword
-  )
-
   const buttonRef = useRef(null)
 
+  // Деструктуризация функции и значения из компонентов форм
+  const { onEmailChange, onEmailBlur, email } = EmailForm(setError)
+  const { onPasswordChange, onPasswordBlur, password } = PasswordForm(setError)
+  const { onRepeatPasswordChange, onRepeatPasswordBlur, repeatPassword } = RepeatPasswordForm(setError, password)
+  const { updatedStore, setStore } = StoreForm(password, email, repeatPassword)
+
+  // Перевод фокуса на кнопку при валидности всех полей формы
   useEffect(() => {
     if (
       !error &&
@@ -36,8 +32,14 @@ function App() {
     }
   }, [error, email, password, repeatPassword])
 
+  // Обработки отправки формы (проверка валидности данных и обновление store)
   const onSubmit = (event) => {
     event.preventDefault()
+
+    if (error) {
+      return
+    }
+
     setStore(updatedStore)
     console.log(updatedStore)
   }
